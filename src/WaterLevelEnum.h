@@ -1,0 +1,11 @@
+#ifndef WATERLEVELENUM_H
+#define WATERLEVELENUM_H
+
+enum WaterLevelEnum{
+    WATER_LOW_LEVEL,
+    WATER_MEDIUM_LEVEL,
+    WATER_HIGH_LEVEL,
+    WATER_ERROR
+};
+
+#endif

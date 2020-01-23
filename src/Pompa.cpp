@@ -25,6 +25,3 @@ void Pompa::setup(){
     wylacz();
 }
 
-Pompa::~Pompa()
-{
-}
