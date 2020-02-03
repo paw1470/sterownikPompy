@@ -1,19 +1,19 @@
 #ifndef CONFIGLEDSHIFTREGISTER_H
 #define CONFIGLEDSHIFTREGISTER_H
 
-#define LED_1_RED       0b00000001 
-#define LED_1_GREEN     0b00000010
-#define LED_1_BLUE      0b00000100
+#define LED_1_RED       B00000001 
+#define LED_1_GREEN     B00000010
+#define LED_1_BLUE      B00000100
 #define LED_1_ALL       LED_1_RED | LED_1_GREEN | LED_1_BLUE
 
-#define LED_2_RED       0b00001000
-#define LED_2_GREEN     0b00010000
-#define LED_2_BLUE      0b00100000
+#define LED_2_RED       B00001000
+#define LED_2_GREEN     B00010000
+#define LED_2_BLUE      B00100000
 #define LED_2_ALL       LED_2_RED | LED_2_GREEN | LED_2_BLUE
 
 //only 2 bits
-#define LED_3_RED       0b01000000
-#define LED_3_GREEN     0b10000000
+#define LED_3_RED       B01000000
+#define LED_3_GREEN     B10000000
 #define LED_3_ALL       LED_3_RED | LED_3_GREEN
 
 //WELL

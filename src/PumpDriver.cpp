@@ -10,16 +10,23 @@ void PumpDriver::init(){
     lastTimeWaterLevelCheck = 0L;
 
     pumpsController.initDevices();
+    updatePump(PUMP_OFF);
     waterSensors.initSensors();
     ledController.init();
     buttons.init();
-}
+    // ledController.test();
+    updatePump(PUMP_ON);
+}    
 
 void PumpDriver::start(){
     timeForWaterLevelChangeInfo();
     timeForButtonCheck();
-    timeForAutoChangePumpState();
+    // timeForAutoChangePumpState();
     timeForBlinkLed();
+    // delay(1000);
+    // updatePump(PUMP_ON);
+    // delay(1000);
+    // updatePump(PUMP_OFF);
 }
 
 void PumpDriver::updateLedInfo(){
@@ -75,6 +82,7 @@ void PumpDriver::timeForBlinkLed(){
      if((pumpStatus == PUMP_FORCE_OFF) || (pumpStatus == PUMP_FORCE_ON)){
         if(getTimeSince(lastTimeBlink) >= WAIT_TIME_BLINK_LED){
             lastTimeBlink = millis();
+            ledController.setPumpInfo(pumpStatus);
             ledController.blinkPump();
         }
     }

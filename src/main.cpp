@@ -4,9 +4,9 @@ PumpDriver pumpDriver;
 
 void setup(){
     pumpDriver.init();
-    pumpDriver.start();
+    
 }
 
 void loop(){
-
+    pumpDriver.start();
 }

@@ -20,6 +20,8 @@ class LedController{
         void setPumpInfo(PumpStateEnum pumpState);
         void update();
         void blinkPump();
+        void test();
+        void colorTest();
 };
 
 #endif

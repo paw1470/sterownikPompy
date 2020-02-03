@@ -10,19 +10,15 @@ bool PumpsController::isPumpOn(){
 }
 
 void PumpsController::pumpTurnON(){
-    if(!pump.isStateOn()){
-            pump.turnON();
-    }
+    pump.turnON();
 }
 
 void PumpsController::pumpTurnOFF(){
-    if(pump.isStateOn()){
-        pump.turnOFF();
-    }
+    pump.turnOFF();
 }
 
 void PumpsController::initPump(){
-    pump.init(PUMP_N_O_CONNECTED, PUMP_N_O_CONNECTED, PUMP_INVERTED_OUTPUT);
+    pump.init(PIN_PUMP, PUMP_N_O_CONNECTED, PUMP_INVERTED_OUTPUT);
 }
 
 void PumpsController::setState(PumpStateEnum state){

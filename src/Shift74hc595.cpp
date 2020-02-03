@@ -5,6 +5,9 @@ void Shift74hc595::init(uint8_t dataPin, uint8_t latchPin, uint8_t clockPin){
     this->dataPin = dataPin;
     this->latchPin = latchPin;
     this->clockPin = clockPin;
+    pinMode(dataPin, OUTPUT);
+    pinMode(latchPin, OUTPUT);
+    pinMode(clockPin, OUTPUT);
     this->data = 0;
 }
         
@@ -39,7 +42,7 @@ void Shift74hc595::updateRegister(){
 
 void Shift74hc595::test(){
     this->data = 1;
-    for(int i=0; i<7; i++){
+    for(int i=0; i<8; i++){
         updateRegister();
         this->data <<= 1;
         delay(500);

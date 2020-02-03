@@ -17,7 +17,11 @@ void Pump::turnOFF(){
 
 
 void Pump::setPumpState(bool on){
-    digitalWrite(pumpPin, (on ^ invertedOutput));
+    if(on != invertedOutput){
+        digitalWrite(pumpPin, HIGH);
+    } else{
+        digitalWrite(pumpPin, LOW);
+    }
 }
 
 bool Pump::isStateOn(){
@@ -25,7 +29,7 @@ bool Pump::isStateOn(){
 }
 
 void Pump::invertInterpreter(bool NOConnection, bool invertedOutput){
-    invertedOutput = !NOConnection ^ invertedOutput;
+    this->invertedOutput = !NOConnection != invertedOutput;
 }
 
 void Pump::test(){

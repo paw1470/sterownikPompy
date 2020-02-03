@@ -52,7 +52,7 @@ void LedController::setPumpInfo(PumpStateEnum pumpState){
     ledState = clearPumpInfo(ledState);
     switch (pumpState){
     case PUMP_OFF:
-        ledState = ledState | LED_PUMP_RED;
+        ledState = ledState | 64;
         break;
     case PUMP_FORCE_OFF:
         ledState = ledState | LED_PUMP_RED;
@@ -91,13 +91,69 @@ void LedController::blinkPump(){
 }
 
 byte LedController::clearPumpInfo(byte data){
-    return data & ~LED_PUMP_ALL;
+    return data & ~(LED_PUMP_ALL);
 }
 
 byte LedController::clearWellInfo(byte data){
-    return data & ~LED_WELL_ALL;
+    return data & ~(LED_WELL_ALL);
 }
 
 byte LedController::clearTankInfo(byte data){
-    return data & ~LED_TANK_ALL;
+    return data & ~(LED_TANK_ALL);
+}
+
+void LedController::test(){
+    stateLedShiftRegister.test();
+    colorTest();
+}
+
+void LedController::colorTest(){
+    byte tempLedState = 0;
+    tempLedState = LED_WELL_RED | LED_TANK_RED | LED_PUMP_RED;
+    stateLedShiftRegister.setDataByte(tempLedState);
+    update();
+
+    delay(500);
+
+    tempLedState = 0;
+    tempLedState = LED_WELL_GREEN | LED_TANK_GREEN | LED_PUMP_GREEN;
+    stateLedShiftRegister.setDataByte(tempLedState);
+    update();
+
+    delay(500);
+
+    tempLedState = 0;
+    tempLedState = LED_WELL_BLUE | LED_TANK_BLUE;
+    stateLedShiftRegister.setDataByte(tempLedState);
+    update();
+
+    delay(500);
+
+    tempLedState = 0;
+    tempLedState = LED_WELL_YELLOW | LED_TANK_YELLOW | LED_PUMP_YELLOW;
+    stateLedShiftRegister.setDataByte(tempLedState);
+    update();
+
+    delay(500);
+
+    tempLedState = 0;
+    tempLedState = LED_WELL_CYAN | LED_TANK_CYAN;
+    stateLedShiftRegister.setDataByte(tempLedState);
+    update();
+
+    delay(500);
+
+    tempLedState = 0;
+    tempLedState = LED_WELL_MAGENTA | LED_TANK_MAGENTA;
+    stateLedShiftRegister.setDataByte(tempLedState);
+    update();
+
+    delay(500);
+
+    tempLedState = 0;
+    tempLedState = LED_WELL_WHITE | LED_TANK_WHITE;
+    stateLedShiftRegister.setDataByte(tempLedState);
+    update();
+
+    delay(500);
 }
