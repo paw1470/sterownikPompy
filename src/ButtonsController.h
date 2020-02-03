@@ -1,8 +1,8 @@
-#ifndef CONTROLLBUTTONS_H
-#define CONTROLLBUTTONS_H
+#ifndef BUTTONSCONTROLLER_H
+#define BUTTONSCONTROLLER_H
 #include "Button.h"
 
-class ControllButtons{
+class ButtonsController{
     private:
         Button buttonStart;
         Button buttonStop;

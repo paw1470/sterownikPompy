@@ -3,59 +3,24 @@
 
 void PumpDriver::init(){
     pumpStatus = PUMP_OFF;
-    lastTankStatus = WATER_ERROR;
-    lastWellStatus = WATER_ERROR;
 
-    lastTimeAutoChange = 0;
-    lastTimeBlink = 0;
-    lastTimeButtonPress = 0;
-    lastTimeWaterLevelCheck = 0;
+    lastTimeChangePumpState = 0L;
+    lastTimeBlink = 0L;
+    lastTimeButtonPress = 0L;
+    lastTimeWaterLevelCheck = 0L;
 
-    outputDevices.initDevices();
+    pumpsController.initDevices();
     waterSensors.initSensors();
     ledController.init();
     buttons.init();
 }
 
 void PumpDriver::start(){
-    bool stateUpdated = false;
-    while(true){
-        if(checkButtons()){
-            stateUpdated = true;
-        }
-        if(isWaterLevelChanged()){
-            stateUpdated = true;
-        }
-        if(stateUpdated){
-            updateLedInfo();
-            stateUpdated = false;
-        }
-    }
+    timeForWaterLevelChangeInfo();
+    timeForButtonCheck();
+    timeForAutoChangePumpState();
+    timeForBlinkLed();
 }
-
-void PumpDriver::changeOutputDevicesState(){
-    switch (pumpStatus){
-    case PUMP_ERROR:
-        outputDevices.pumpTurnOFF();
-        break;
-    case PUMP_OFF:
-        outputDevices.pumpTurnOFF();
-        break;
-    case PUMP_FORCE_OFF:
-        outputDevices.pumpTurnOFF();
-        break;
-    case PUMP_ON:
-        outputDevices.pumpTurnON();
-        break;
-    case PUMP_FORCE_ON:
-        outputDevices.pumpTurnON();
-        break;
-    default:
-        break;
-    }
-}
-
-
 
 void PumpDriver::updateLedInfo(){
     ledController.setTankInfo(waterSensors.getTankStatus());
@@ -64,129 +29,63 @@ void PumpDriver::updateLedInfo(){
     ledController.update();
 }
 
-bool PumpDriver::isWaterLevelChanged(){
-    bool isChanged = false;
-    if(isWellLevelChanged()){
-        lastWellStatus = waterSensors.getWellStatus();
-        isChanged = true;
-    }
-    if(isTankLevelChanged()){
-        lastTankStatus = waterSensors.getTankStatus();
-        isChanged = true;
-    }
-    return isChanged;
-}
-
-bool PumpDriver::isWellLevelChanged(){
-    return waterSensors.getWellStatus() != lastWellStatus;
-}
-
-bool PumpDriver::isTankLevelChanged(){
-    return waterSensors.getTankStatus() != lastTankStatus;
-}
-
-bool PumpDriver::checkButtons(){
-    if(!isTimeForButtonCheck()){
-        return false;
-    }
+void PumpDriver::checkButtons(){
+    PumpStateEnum tempPumpState = pumpStatus;
     if(buttons.isMoreThanOneButtonPressed()){
-        return changeStateButtonError();
+        tempPumpState = buttonsInterpreter.getStateWithAllButtons(tempPumpState);
     } else if(buttons.isButtonStartPressed()){
-        return changeStateButtonStart();
+        tempPumpState = buttonsInterpreter.getStateWithStartButton(tempPumpState);
     } else if(buttons.isButtonStopPressed()){
-        return changeStateButtonStop();
+        tempPumpState = buttonsInterpreter.getStateWithStopButton(tempPumpState);
     }
-    return false;
-}
-
-bool PumpDriver::changeStateButtonStart(){
-    switch (pumpStatus) {
-    case PUMP_FORCE_OFF:
-        pumpStatus = PUMP_OFF;
-        break;
-    case PUMP_OFF:
-        pumpStatus = PUMP_ON;
-        break;
-    case PUMP_ON:
-        pumpStatus = PUMP_FORCE_ON;
-        break;
-    case PUMP_FORCE_ON:
-        return false;
-        break;
-    case PUMP_ERROR:
-        pumpStatus = PUMP_OFF;
-        break;
-    default:
-        break;
-        return false;
-    }
-    return true;
-}
-
-bool PumpDriver::changeStateButtonStop(){
-    switch (pumpStatus) {
-    case PUMP_FORCE_OFF:
-        return false;
-        break;
-    case PUMP_OFF:
-        pumpStatus = PUMP_FORCE_OFF;
-        break;
-    case PUMP_ON:
-        pumpStatus = PUMP_OFF;
-        break;
-    case PUMP_FORCE_ON:
-        pumpStatus = PUMP_OFF;
-        break;
-    case PUMP_ERROR:
-        pumpStatus = PUMP_OFF;
-        break;
-    default:
-        return false;
-        break;
-    }
-    return true;
-}
-
-bool PumpDriver::changeStateButtonError(){
-    if(pumpStatus == PUMP_ERROR){
-        return false;
-    } else{
-        return true;
+    if(tempPumpState != pumpStatus){
+        updatePump(tempPumpState);
     }
 }
 
-bool PumpDriver::isTimeForButtonCheck(){
+void PumpDriver::timeForButtonCheck(){
     if(getTimeSince(lastTimeButtonPress) >= WAIT_TIME_BETWEN_BUTTON){
         lastTimeButtonPress = millis();
-        return true;
+        checkButtons();
     }
-    return false;
 }
 
-bool PumpDriver::isTimeForWaterLevelCheck(){
+void PumpDriver::timeForWaterLevelChangeInfo(){
     if(getTimeSince(lastTimeWaterLevelCheck) >= WAIT_TIME_WATER_LEVEL_CHECK){
         lastTimeWaterLevelCheck = millis();
-        return true;
+        ledController.setTankInfo(waterSensors.getTankStatus());
+        ledController.setWellInfo(waterSensors.getWellStatus());
+        ledController.update();
     }
-    return false;
 }
 
-bool PumpDriver::isTimeForAutoChangeState(){
+void PumpDriver::timeForAutoChangePumpState(){
     if((pumpStatus == PUMP_OFF) || (pumpStatus == PUMP_ON)){
-        if(getTimeSince(lastTimeAutoChange) >= WAIT_TIME_AUTO_CHANGE){
-            return true;
+        if(getTimeSince(lastTimeChangePumpState) >= WAIT_TIME_AUTO_CHANGE){
+            PumpStateEnum tempPumpState = pumpStatus;
+            tempPumpState = pumpStateInterpreter.getNewPumpState(waterSensors.getWellStatus, waterSensors.getTankStatus, tempPumpState);
+            if(pumpStatus != tempPumpState){
+                updatePump(tempPumpState);
+            }
         }
     }
-    return false;
 }
 
-bool PumpDriver::isTimeForBlinkLed(){
+void PumpDriver::timeForBlinkLed(){
      if((pumpStatus == PUMP_FORCE_OFF) || (pumpStatus == PUMP_FORCE_ON)){
         if(getTimeSince(lastTimeBlink) >= WAIT_TIME_BLINK_LED){
-            return true;
+            lastTimeBlink = millis();
+            ledController.blinkPump();
         }
     }
-    return false;
+}
+
+void PumpDriver::updatePump(PumpStateEnum newPumpState){
+    lastTimeChangePumpState = millis();
+    pumpStatus = newPumpState;
+    ledController.setPumpInfo(pumpStatus);
+    ledController.update();
+    pumpsController.setState(pumpStatus);
 }
 
 uint16_t PumpDriver::getTimeSince(unsigned long time){

@@ -13,3 +13,4 @@ void Button::init(uint8_t pin, bool internalPullUpResistor){
 bool Button::isButtonPressed(){ 
     return digitalRead(buttonPin) && LOW;
 }
+

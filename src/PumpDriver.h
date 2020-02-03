@@ -1,42 +1,36 @@
 #ifndef PUMPDRIVER_H
 #define PUMPDRIVER_H
-#include "OutputDevices.h"
+#include "PumpsController.h"
 #include "LedController.h"
 #include "WaterSensors.h"
-#include "ControllButtons.h"
+#include "ButtonsController.h"
+#include "PumpStateInterpreter.h"
+#include "ButtonsInterpreter.h"
+
 
 class PumpDriver{
     private:
-        OutputDevices outputDevices;
+        PumpsController pumpsController;
         LedController ledController;
         WaterSensors waterSensors;
-        ControllButtons buttons;
-
-        WaterLevelEnum lastWellStatus;
-        WaterLevelEnum lastTankStatus;
-        PumpStateEnum  lastPumpSatus;
-
+        ButtonsController buttons;
+        PumpStateInterpreter pumpStateInterpreter;
+        ButtonsInterpreter buttonsInterpreter;
+        
         PumpStateEnum  pumpStatus;
 
         unsigned long lastTimeButtonPress;
         unsigned long lastTimeWaterLevelCheck;
-        unsigned long lastTimeAutoChange;
+        unsigned long lastTimeChangePumpState;
         unsigned long lastTimeBlink;
 
         void updateLedInfo();
-        bool isWaterLevelChanged();
-        bool isWellLevelChanged();
-        bool isTankLevelChanged();
-        bool checkButtons();
-        bool changeStateButtonStart();
-        bool changeStateButtonStop();
-        bool changeStateButtonError();
-        bool isAutomaticControll();
-        void changeOutputDevicesState();
-        bool isTimeForButtonCheck();
-        bool isTimeForWaterLevelCheck();
-        bool isTimeForAutoChangeState();
-        bool isTimeForBlinkLed();
+        void timeForButtonCheck();
+        void timeForWaterLevelChangeInfo();        
+        void timeForAutoChangePumpState();
+        void timeForBlinkLed(); 
+        void checkButtons();
+        void updatePump(PumpStateEnum newPumpState);
         uint16_t getTimeSince(unsigned long time);
     public:
         void init();

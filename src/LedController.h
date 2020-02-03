@@ -9,6 +9,9 @@ class LedController{
     private:
         Shift74hc595 stateLedShiftRegister;
         void initShiftRegister();
+        byte clearPumpInfo(byte data);
+        byte clearWellInfo(byte data);
+        byte clearTankInfo(byte data);
         bool blink;
     public:
         void init();
@@ -16,6 +19,7 @@ class LedController{
         void setTankInfo(WaterLevelEnum tankWaterLevel);
         void setPumpInfo(PumpStateEnum pumpState);
         void update();
+        void blinkPump();
 };
 
 #endif

@@ -4,12 +4,12 @@
 
 void LedController::init(){
     initShiftRegister();
-    blink = true;
+    this->blink = true;
 }
 
 void LedController::setWellInfo(WaterLevelEnum wellWaterLevel){
-    byte ledState = stateLedShiftRegister.getShiftData();
-    ledState = ledState & LED_WELL_OFF;
+    byte ledState = stateLedShiftRegister.getDataByte();
+    ledState = clearWellInfo(ledState);
     switch (wellWaterLevel){
     case WATER_LOW_LEVEL:
         ledState = ledState | LED_WELL_RED;
@@ -28,8 +28,8 @@ void LedController::setWellInfo(WaterLevelEnum wellWaterLevel){
 }
 
 void LedController::setTankInfo(WaterLevelEnum tankWaterLevel){
-    byte ledState = stateLedShiftRegister.getShiftData();
-    ledState = ledState & LED_TANK_OFF;
+    byte ledState = stateLedShiftRegister.getDataByte();
+    ledState = clearTankInfo(ledState);
     switch (tankWaterLevel){
     case WATER_LOW_LEVEL:
         ledState = ledState | LED_TANK_GREEN;
@@ -48,26 +48,20 @@ void LedController::setTankInfo(WaterLevelEnum tankWaterLevel){
 }
 
 void LedController::setPumpInfo(PumpStateEnum pumpState){
-    byte ledState = stateLedShiftRegister.getShiftData();
-    ledState = ledState & LED_PUMP_OFF;
+    byte ledState = stateLedShiftRegister.getDataByte();
+    ledState = clearPumpInfo(ledState);
     switch (pumpState){
     case PUMP_OFF:
         ledState = ledState | LED_PUMP_RED;
         break;
     case PUMP_FORCE_OFF:
-        if(blink){
-            ledState = ledState | LED_PUMP_RED;
-            blink = !blink;
-        }        
+        ledState = ledState | LED_PUMP_RED;
         break;
     case PUMP_ON:
         ledState = ledState | LED_PUMP_GREEN;
         break;
     case PUMP_FORCE_ON:
-        if(blink){
-            ledState = ledState | LED_PUMP_GREEN;
-            blink = !blink;
-        }
+        ledState = ledState | LED_PUMP_GREEN;
         break;
     default:
         ledState = ledState | LED_PUMP_YELLOW;
@@ -82,4 +76,28 @@ void LedController::update(){
 
 void LedController::initShiftRegister(){
     stateLedShiftRegister.init(PIN_SHIFT_REGISTER_DATA, PIN_SHIFT_REGISTER_LATCH, PIN_SHIFT_REGISTER_CLOCK);
+}
+
+void LedController::blinkPump(){
+    if(blink){
+        this->blink = false;
+        stateLedShiftRegister.setDataByte(
+            clearPumpInfo(
+                stateLedShiftRegister.getDataByte()));
+    } else{
+        this->blink = true;
+    }
+    update();
+}
+
+byte LedController::clearPumpInfo(byte data){
+    return data & ~LED_PUMP_ALL;
+}
+
+byte LedController::clearWellInfo(byte data){
+    return data & ~LED_WELL_ALL;
+}
+
+byte LedController::clearTankInfo(byte data){
+    return data & ~LED_TANK_ALL;
 }

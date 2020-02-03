@@ -9,14 +9,15 @@ class Shift74hc595{
         uint8_t dataPin; 
         uint8_t latchPin; 
         uint8_t clockPin;
-        byte shiftData;
+        byte data;
     public:
         void init(uint8_t dataPin, uint8_t latchPin, uint8_t clockPin);
-        byte getShiftData();
+        byte getDataByte();
         bool isBitOn(uint8_t bitPosition);
         void setBit(uint8_t bitPosition, bool bitNewState);
         void setDataByte(byte data);
         void updateRegister();
+        void test();
 };
 
 #endif
