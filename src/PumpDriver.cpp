@@ -63,7 +63,7 @@ void PumpDriver::timeForAutoChangePumpState(){
     if((pumpStatus == PUMP_OFF) || (pumpStatus == PUMP_ON)){
         if(getTimeSince(lastTimeChangePumpState) >= WAIT_TIME_AUTO_CHANGE){
             PumpStateEnum tempPumpState = pumpStatus;
-            tempPumpState = pumpStateInterpreter.getNewPumpState(waterSensors.getWellStatus, waterSensors.getTankStatus, tempPumpState);
+            tempPumpState = pumpStateInterpreter.getNewPumpState(waterSensors.getWellStatus(), waterSensors.getTankStatus(), tempPumpState);
             if(pumpStatus != tempPumpState){
                 updatePump(tempPumpState);
             }
