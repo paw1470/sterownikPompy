@@ -4,7 +4,7 @@
 //  WAIT TIME
 #define WAIT_TIME_BETWEN_BUTTON         150
 #define WAIT_TIME_WATER_LEVEL_CHECK     75
-#define WAIT_TIME_AUTO_CHANGE           1000
+#define WAIT_TIME_AUTO_CHANGE           3000
 #define WAIT_TIME_BLINK_LED             300
 
 //  BUTTONS

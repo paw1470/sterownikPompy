@@ -45,7 +45,7 @@ void Shift74hc595::test(){
     for(int i=0; i<8; i++){
         updateRegister();
         this->data <<= 1;
-        delay(500);
+        delay(250);
     }
     this->data = 0;
 }

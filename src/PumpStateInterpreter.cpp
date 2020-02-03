@@ -7,7 +7,7 @@ PumpStateEnum PumpStateInterpreter::getNewPumpState(WaterLevelEnum wellWaterLeve
     if(lastPumpState == PUMP_ON && (wellWaterLevel == WATER_LOW_LEVEL || tankWaterLevel == WATER_HIGH_LEVEL)){  //auto Off
         return PUMP_OFF;
     }
-    if(lastPumpState == PUMP_OFF && (wellWaterLevel == WATER_HIGH_LEVEL || tankWaterLevel == WATER_LOW_LEVEL)){  //auto On
+    if(lastPumpState == PUMP_OFF && (wellWaterLevel == WATER_HIGH_LEVEL && tankWaterLevel == WATER_LOW_LEVEL)){  //auto On
         return PUMP_ON;
     }
     return lastPumpState;

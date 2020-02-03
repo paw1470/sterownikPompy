@@ -32,6 +32,7 @@ class PumpDriver{
         void checkButtons();
         void updatePump(PumpStateEnum newPumpState);
         uint16_t getTimeSince(unsigned long time);
+        void testOnStart();
     public:
         void init();
         void start();

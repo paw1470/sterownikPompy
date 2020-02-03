@@ -24,10 +24,10 @@ class WaterLevelSensor{
         
         void updateWaterLevel();
 
-        bool isWaterLevelLow();
-        bool isWaterLevelMedium();
-        bool isWaterLevelHigh();
-        bool isWaterLevelError();
+        bool isWaterLevelLow(bool waterSensorLow, bool waterSensorHigh);
+        bool isWaterLevelMedium(bool waterSensorLow, bool waterSensorHigh);
+        bool isWaterLevelHigh(bool waterSensorLow, bool waterSensorHigh);
+        bool isWaterLevelError(bool waterSensorLow, bool waterSensorHigh);
     
    
 };

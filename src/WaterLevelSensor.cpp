@@ -19,11 +19,13 @@ void WaterLevelSensor::init(uint8_t lowWaterLevelPin, uint8_t highWaterLevelPin,
 }
 
 void WaterLevelSensor::updateWaterLevel(){
-    if(isWaterLevelLow()){
+    bool waterSensorLow = isWaterSensorLow();
+    bool waterSensorHigh = isWaterSensorHigh();
+    if(isWaterLevelLow(waterSensorLow, waterSensorHigh)){
         waterLevel = WaterLevelEnum::WATER_LOW_LEVEL;
-    } else if(isWaterLevelMedium()){
+    } else if(isWaterLevelMedium(waterSensorLow, waterSensorHigh)){
         waterLevel = WaterLevelEnum::WATER_MEDIUM_LEVEL;
-    } else if(isWaterLevelHigh()){
+    } else if(isWaterLevelHigh(waterSensorLow, waterSensorHigh)){
         waterLevel = WaterLevelEnum::WATER_HIGH_LEVEL;
     } else{
         waterLevel = WaterLevelEnum::WATER_ERROR;
@@ -46,27 +48,27 @@ WaterLevelEnum WaterLevelSensor::getLastWaterLevel(){
 }
 
 bool WaterLevelSensor::isWaterSensorHigh(){
-    return digitalRead(highWaterLevelPin) == LOW;
+    return !digitalRead(highWaterLevelPin);
 }
 
 bool WaterLevelSensor::isWaterSensorLow(){
-    return digitalRead(lowWaterLevelPin) == LOW;
+    return !digitalRead(lowWaterLevelPin);
 }
 
-bool WaterLevelSensor::isWaterLevelLow(){
-    return !isWaterSensorLow() & !isWaterSensorHigh();
+bool WaterLevelSensor::isWaterLevelLow(bool waterSensorLow, bool waterSensorHigh){
+    return !waterSensorLow & !waterSensorHigh;
 }
 
-bool WaterLevelSensor::isWaterLevelMedium(){
-    return isWaterSensorLow() & !isWaterSensorHigh();
+bool WaterLevelSensor::isWaterLevelMedium(bool waterSensorLow, bool waterSensorHigh){
+    return waterSensorLow & !waterSensorHigh;
 }
 
-bool WaterLevelSensor::isWaterLevelHigh(){
-    return isWaterSensorLow() & isWaterSensorHigh();
+bool WaterLevelSensor::isWaterLevelHigh(bool waterSensorLow, bool waterSensorHigh){
+    return waterSensorLow & waterSensorHigh;
 }
 
-bool WaterLevelSensor::isWaterLevelError(){
-    return !isWaterSensorLow() & isWaterSensorHigh();
+bool WaterLevelSensor::isWaterLevelError(bool waterSensorLow, bool waterSensorHigh){
+    return !waterSensorLow & waterSensorHigh;
 }
 
 

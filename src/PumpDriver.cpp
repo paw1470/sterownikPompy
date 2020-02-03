@@ -2,31 +2,25 @@
 #include "Config.h"
 
 void PumpDriver::init(){
-    pumpStatus = PUMP_OFF;
-
     lastTimeChangePumpState = 0L;
     lastTimeBlink = 0L;
     lastTimeButtonPress = 0L;
     lastTimeWaterLevelCheck = 0L;
 
     pumpsController.initDevices();
-    updatePump(PUMP_OFF);
     waterSensors.initSensors();
     ledController.init();
-    buttons.init();
-    // ledController.test();
-    updatePump(PUMP_ON);
+    updatePump(PUMP_OFF);
+    buttons.init();    
+    testOnStart();
+
 }    
 
 void PumpDriver::start(){
     timeForWaterLevelChangeInfo();
     timeForButtonCheck();
-    // timeForAutoChangePumpState();
+    timeForAutoChangePumpState();
     timeForBlinkLed();
-    // delay(1000);
-    // updatePump(PUMP_ON);
-    // delay(1000);
-    // updatePump(PUMP_OFF);
 }
 
 void PumpDriver::updateLedInfo(){
@@ -98,4 +92,12 @@ void PumpDriver::updatePump(PumpStateEnum newPumpState){
 
 uint16_t PumpDriver::getTimeSince(unsigned long time){
     return (uint16_t)(millis() - time);
+}
+
+void PumpDriver::testOnStart(){
+    updatePump(PUMP_ON);
+    delay(1000);
+    updatePump(PUMP_OFF);
+    ledController.test();
+    updatePump(PUMP_OFF);
 }
