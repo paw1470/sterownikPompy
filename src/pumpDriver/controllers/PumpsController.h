@@ -1,7 +1,7 @@
 #ifndef PUMPSCONTROLLER_H
 #define PUMPSCONTROLLER_H
 #include <inttypes.h>
-#include "hardware/relaySwitch/RelaySwitch.h"
+#include "RelaySwitchPB.h"
 #include "pumpDriver/PumpStateEnum.h"
 
 class PumpsController{
@@ -12,7 +12,7 @@ class PumpsController{
         void pumpTurnOFF();
         void setState(PumpStateEnum state);
     private:
-        RelaySwitch pump;
+        RelaySwitchPB pump;
         void initPump();
 };
 

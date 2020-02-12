@@ -1,7 +1,7 @@
 #ifndef PUMPSTATEINTERPRETER_H
 #define PUMPSTATEINTERPRETER_H
 #include "pumpDriver/PumpStateEnum.h"
-#include "hardware/waterSensor/WaterLevelEnum.h"
+#include "WaterLevelEnum.h"
 
 class PumpStateInterpreter{
 private:

@@ -32,6 +32,6 @@
 //  PUMP
 #define PIN_PUMP                    13          //13 pin with internal led
 #define PUMP_N_O_CONNECTED          true        //pump in normally open connection in relay switch
-#define PUMP_INVERTED_OUTPUT        true        //led 13 is off when pump on
+#define PUMP_INVERTED_OUTPUT        true        //led 13 is off when relay swith is on
 
 #endif

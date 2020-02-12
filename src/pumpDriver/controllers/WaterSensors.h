@@ -1,8 +1,8 @@
 #ifndef WATERSENSORS_H
 #define WATERSENSORS_H
 #include <inttypes.h>
-#include "hardware/waterSensor/WaterLevelEnum.h"
-#include "hardware/waterSensor/WaterLevelSensor.h"
+#include "WaterLevelEnum.h"
+#include "WaterLevelSensor2PinPB.h"
 
 class WaterSensors{
     public:
@@ -11,8 +11,8 @@ class WaterSensors{
         void initSensors();
     
     private:
-        WaterLevelSensor tankSensor;
-        WaterLevelSensor wellSensor;
+        WaterLevelSensor2PinPB tankSensor;
+        WaterLevelSensor2PinPB wellSensor;
         
         void initTankSensor();
         void initWellSensor();

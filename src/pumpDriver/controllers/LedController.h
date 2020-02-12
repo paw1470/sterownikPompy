@@ -1,13 +1,13 @@
 #ifndef LEDCONTROLLER_H
 #define LEDCONTROLLER_H
-#include "hardware/shiftRegister/Shift74hc595.h"
-#include "hardware/waterSensor/WaterLevelEnum.h"
+#include "ShiftRegisterPB.h"
+#include "WaterLevelEnum.h"
 #include "pumpDriver/PumpStateEnum.h"
 
 
 class LedController{
     private:
-        Shift74hc595 stateLedShiftRegister;
+        ShiftRegisterPB stateLedShiftRegister;
         void initShiftRegister();
         byte clearPumpInfo(byte data);
         byte clearWellInfo(byte data);

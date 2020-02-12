@@ -11,13 +11,13 @@ void LedController::setWellInfo(WaterLevelEnum wellWaterLevel){
     byte ledState = stateLedShiftRegister.getDataByte();
     ledState = clearWellInfo(ledState);
     switch (wellWaterLevel){
-    case WATER_LOW_LEVEL:
+    case WATER_LEVEL_EMPTY:
         ledState = ledState | LED_WELL_RED;
         break;
-    case WATER_MEDIUM_LEVEL:
+    case WATER_LEVEL_MEDIUM:
         ledState = ledState | LED_WELL_BLUE;
         break;
-    case WATER_HIGH_LEVEL:
+    case WATER_LEVEL_FULL:
         ledState = ledState | LED_WELL_GREEN;
         break;
     default:
@@ -31,13 +31,13 @@ void LedController::setTankInfo(WaterLevelEnum tankWaterLevel){
     byte ledState = stateLedShiftRegister.getDataByte();
     ledState = clearTankInfo(ledState);
     switch (tankWaterLevel){
-    case WATER_LOW_LEVEL:
+    case WATER_LEVEL_EMPTY:
         ledState = ledState | LED_TANK_GREEN;
         break;
-    case WATER_MEDIUM_LEVEL:
+    case WATER_LEVEL_MEDIUM:
         ledState = ledState | LED_TANK_BLUE;
         break;
-    case WATER_HIGH_LEVEL:
+    case WATER_LEVEL_FULL:
         ledState = ledState | LED_TANK_RED;
         break;
     default:
@@ -103,7 +103,7 @@ byte LedController::clearTankInfo(byte data){
 }
 
 void LedController::test(){
-    stateLedShiftRegister.test();
+    stateLedShiftRegister.testShift();
     colorTest();
 }
 
