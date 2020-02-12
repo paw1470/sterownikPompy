@@ -8,7 +8,7 @@
 class WaterLevelSensor{
     public:
         WaterLevelSensor();
-        void init(uint8_t lowWaterLevelPin, uint8_t highWaterLevelPin, bool useInternalPullUpRes);
+        void init(uint8_t lowWaterLevelPin, uint8_t highWaterLevelPin, bool useInternalPullUpRes = true);
         bool isWaterLevelChanged();             //update and return bool
         WaterLevelEnum getWaterLevel();         //update and return
         WaterLevelEnum getLastWaterLevel();     //only return 

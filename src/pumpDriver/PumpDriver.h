@@ -1,11 +1,11 @@
 #ifndef PUMPDRIVER_H
 #define PUMPDRIVER_H
-#include "PumpsController.h"
-#include "LedController.h"
-#include "WaterSensors.h"
-#include "ButtonsController.h"
-#include "PumpStateInterpreter.h"
-#include "ButtonsInterpreter.h"
+#include "pumpDriver/controllers/PumpsController.h"
+#include "pumpDriver/controllers/LedController.h"
+#include "pumpDriver/controllers/WaterSensors.h"
+#include "pumpDriver/controllers/ButtonsController.h"
+#include "pumpDriver/stateInterpreters/PumpStateInterpreter.h"
+#include "pumpDriver/stateInterpreters/ButtonsInterpreter.h"
 
 
 class PumpDriver{

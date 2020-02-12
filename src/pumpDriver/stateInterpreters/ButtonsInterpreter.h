@@ -1,6 +1,6 @@
 #ifndef BUTTONSINTERPRETER_H
 #define BUTTONSINTERPRETER_H
-#include "PumpStateEnum.h"
+#include "pumpDriver/PumpStateEnum.h"
 
 class ButtonsInterpreter{
 

@@ -1,8 +1,8 @@
 #ifndef LEDCONTROLLER_H
 #define LEDCONTROLLER_H
-#include "Shift74hc595.h"
-#include "WaterLevelEnum.h"
-#include "PumpStateEnum.h"
+#include "hardware/shiftRegister/Shift74hc595.h"
+#include "hardware/waterSensor/WaterLevelEnum.h"
+#include "pumpDriver/PumpStateEnum.h"
 
 
 class LedController{

@@ -22,7 +22,7 @@ void PumpsController::initPump(){
 }
 
 void PumpsController::setState(PumpStateEnum state){
-    switch (state)    {
+    switch (state){
     case PUMP_ERROR:
         pumpTurnOFF();
         break;

@@ -1,6 +1,6 @@
 #ifndef BUTTONSCONTROLLER_H
 #define BUTTONSCONTROLLER_H
-#include "Button.h"
+#include "hardware/button/Button.h"
 
 class ButtonsController{
     private:
